@@ -1,0 +1,17 @@
+[package]
+name = "learn_publish_config"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+# opt-level 范围 0 ~ 3，值越大，程序运行速度越快，编译速度越慢
+# 开发环境的配置
+[profile.dev]
+opt-level = 0
+
+# 生产环境的配置
+[profile.release]
+opt-level = 3
