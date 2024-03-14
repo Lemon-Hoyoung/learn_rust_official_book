@@ -7,7 +7,8 @@
 // 当 T: Deref<Target=U>，允许 &T 转换为 &U
 // 当 T: DerefMut<Target=U>，允许 &mut T 转换为 &mut U
 // 当 T: Deref<Target=U>，允许 &mut T 转换为 &U
-// 2. Drop Trait：允许自定义 当智能指针实例走出作用域时 的代码
+// &&&&&T 类型会自动解引用转换为 &T
+// 2. Drop Trait：允许自定义 当智能指针实例走出作用域时 的代码（在预导入模块中prelude）
 
 // 标准库中常见的智能指针：
 // 1. Box<T>：在heap内存上分配值
@@ -35,6 +36,12 @@ impl<T> Deref for MyBox<T> {
     fn deref(&self) -> &T {
         &self.0
     }
+}
+
+struct Foo;
+
+impl Foo {
+    fn foo(&self) { println!("Foo"); }
 }
 
 fn hello(name: &str) {
@@ -87,6 +94,16 @@ fn main() {
     // 不匹配，继续：&(*(String.deref())) ===> &str
     hello(&m);
     hello("Rust");
+
+    let s = MyBox::new(String::from("Rust"));
+    let s1: &str = &s;
+    let s2: String = s.to_string();
+    let _s3 = &s;
+    let _s4 = &s.0;
+
+    println!("s1: {}, s2: {}", s1, s2);
+
+    let f = &&Foo;
 }
 
 enum ChainListNode<ChainNode> {

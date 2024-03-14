@@ -55,4 +55,18 @@ fn main() {
 
     println!("maximun value in v5: {}", result);
     println!("maximun value in v5_slice: {}", result_slice);
+
+}
+
+#[test]
+fn test_reverse() {
+    let mut palindrome = vec!["a man", "a plan", "a cancel", "panama"];
+    palindrome.reverse();
+    assert_eq!(palindrome, vec!["panama", "a cancel", "a plan", "a man"]);
+}
+
+#[test]
+fn test_product() {
+    let primes = vec![2, 3, 5, 7];
+    assert_eq!(primes.iter().product::<i32>(), 210);
 }
