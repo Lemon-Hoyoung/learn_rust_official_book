@@ -1,19 +1,25 @@
-// 字符串分两种类型 分别是标准库中的String 以及 核心语言 字符串切片
+// 字符串分两种类型 分别是标准库中的String 以及 核心语言 字符串切片（&str）
 // 字符串切片分为 对String类型变量的引用(栈上指针指向heap) 和 字符串字面量(栈上指针指向只读内存)
 // String本质上是Vector的包装, 因此可以使用很多Vector的方法
 // String不支持索引取值，因为有的字符占用多个字节
 
+// 字符char类型使用 Unicode 字符集，因此每个字符占用4字节
+// 字符串String类型使用 UTF-8 编码，不同字符占字节数可能不同，因此不允许索引取值
+
+// String是堆上str的指针，且拥有str的所有权
+// &str也是堆上str的指针，但是没有所有权
+
 fn main() {
     // 字符串字面量 => String
     let s1 = "Hello World";
-    let s1_string = s1.to_string();
+    let mut s1_string = s1.to_string();
 
     // 根据字符串字面量创建String
     let s2 = String::from("Hello World");
 
     // String后面添加字符串切片
     let mut s3 = String::from("Hello ");
-    s3.push_str("World");
+    s3.push_str("World"); // 在此处发生了隐式的可变借用
 
     // String后面添加一个字符
     let mut s4 = String::from("Hell");
@@ -29,6 +35,8 @@ fn main() {
     let s8 = String::from("Hello");
     let s9 = String::from("World");
     let s10 = format!("{}, {}", s8, s9);
+
+    s1_string.push_str(&s2);
 
     println!("s1: {}", s1);
     println!("s1_string: {}", s1_string);
@@ -56,6 +64,12 @@ fn main() {
     for b in sanskrit.chars() {
         println!("{}", b); // 包含6个char 构成 4个字型簇
     }
+
+    let s_test = String::from("Test");
+    let te = &s_test[0..2];
+    println!("sTest: {}", s_test);
+    println!("te: {}", te);
+
 }
 
 // 由String类型构成的Vector切片：

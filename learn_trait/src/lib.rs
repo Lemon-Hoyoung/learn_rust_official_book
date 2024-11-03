@@ -11,6 +11,9 @@ pub trait Summary {
   fn detail(&self) -> String {
     format!("This summary detail is {}", self.read())
   }
+  fn newString() -> String {
+    String::from("new summary")
+  }
 }
 // 2. 为类型实现trait
 pub struct NewsArticle {
@@ -28,7 +31,7 @@ impl Summary for NewsArticle {
     format!("I have Read this article from {}", self.headline) // 已有默认实现，此处为重写实现
   }
 }
-
+#[derive(Debug)]
 pub struct Tweet {
   pub username: String,
   pub content: String,

@@ -24,6 +24,47 @@ fn largest_clone<T: PartialOrd + Clone>(list: &[T]) -> T {
     largest
 }
 
+fn add<T: std::ops::Add<Output = T>>(a:T, b:T) -> T {
+    a + b
+}
+
+// 使用引用切片来针对不同长度的i32类型数组
+fn display_array(arr: &[i32]) {
+    println!("{:?}", arr);
+}
+
+// 使用 泛型引用切片 并添加trait约束 针对不同长度不同类型的数组
+fn display_all_array<T: std::fmt::Debug>(arr: &[T]) {
+    println!("{:?}", arr);
+}
+
+// 如果必须要使用数组传值而不使用切片，则可以将数组长度定义为const泛型：
+fn display_array_const<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
+    println!("{:?}", arr);
+}
+
+// 开启nightly模式即可使用
+// fn display_small_array<T, const N: usize>(arr: [T; N])
+// where
+//     Assert<{ N * core::mem::size_of::<T>() < 768 }>: IsTrue,
+//     T: Copy,
+// {
+//     // 这里可以添加处理数组的逻辑
+// }
+
+// pub enum Assert<const CHECK: bool> {
+//     //
+// }
+
+// pub trait IsTrue {
+//     //
+// }
+
+// impl IsTrue for Assert<true> {
+//     //
+// }
+
+
 // 枚举泛型见 learn_option_match 和 learn_result章节笔记
 
 // 结构体泛型以及方法泛型
@@ -76,8 +117,6 @@ fn main() {
     let string_result = &largest_clone(&string_list);
     println!("string_result: {}", string_result);
 
-
-
     let mut one_other_point = OtherPoint {
         x: 123,
         y: '1',
@@ -88,7 +127,24 @@ fn main() {
         y: "hello world",
     };
 
+    let calc_plus_res = add(1, 2);
+    println!("calc_plus_res: {}", calc_plus_res);
+
     let mix_other_point_result = one_other_point.mixup(two_other_point);
 
     println!("mix_other_point_result: {:?}", mix_other_point_result);
+
+    let arr = [1,2,3];
+    display_array(&arr);
+    let arr = [1,2];
+    display_array(&arr);
+
+    let arr = [1,2,3,4,5];
+    display_array_const(arr);
+
+    let arr_string = ["hello", "world"];
+    display_all_array(&arr_string);
+
+    // let arr: [u8; 512] = [0u8; 512];
+    // display_small_array(arr);
 }

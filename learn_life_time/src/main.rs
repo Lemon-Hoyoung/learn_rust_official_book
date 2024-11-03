@@ -11,7 +11,13 @@
 // &'a i32 带有显式生命周期的引用
 // &'a mut i32 带有显式生命周期的可变引用
 
-use std::io::Bytes;
+// 生命周期：
+// 生命周期决定了内存中的数据何时被创建，何时被释放
+// 隐式声明周期：
+// 持有内存某块数据的所有权的变量，该变量生命周期为变量所在作用域（{}内）
+// 也就是说 在所有权变量的作用域内，内存块数据不会被释放
+// 显式生命周期标注：
+// 显式生命周期标注的是 引用对应数据的所有权变量的作用域 的子集
 
 fn main() {
     // life_time_introduce();
@@ -28,8 +34,8 @@ fn main() {
          // 而String类型的变量生命周期只在当前作用域，离开当前作用域自动调用drop，回收内存
          // 如果写：
          // let string2 = String::from("xyz");
-         // result = longest(&string1, &string2);
-         // 那就会报错，因为string2生命周期只在当前大括号中，而result作用域在外部
+         // longest_result = longest(&string1, &string2);
+         // 那就会报错，因为string2生命周期只在当前大括号中，而longest_result作用域在外部
     
         longest_result = longest(&string1, string2);
 

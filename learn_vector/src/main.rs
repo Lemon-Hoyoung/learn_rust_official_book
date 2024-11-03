@@ -56,6 +56,14 @@ fn main() {
     println!("maximun value in v5: {}", result);
     println!("maximun value in v5_slice: {}", result_slice);
 
+    let array = [String::from("this"), String::from(" is "), String::from("array")];
+    let array_first_element = &array[0];
+    println!("the first element in the array is: {}", array[0]);
+    println!("array_first_element is: {}", array_first_element);
+
+    let array_copy: [String; 3] = std::array::from_fn(|i| String::from(i.to_string()));
+    println!("the third element in the array_copy is: {}", array_copy[2]);
+
 }
 
 #[test]
